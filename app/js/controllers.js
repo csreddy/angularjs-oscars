@@ -11,13 +11,15 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
 	  $scope.data = null;
 	//  $scope.q = "bob";
 	  var query = $scope.q || "";
-	   var payload = payload || {"query":{"qtext": query}};	
+	//   var payload = payload || {"query":{"qtext": query}};	
+	   
+	   $scope.payload = {"query":{"qtext": query}};	
 	   
 	  $scope.getSearchResult = function (query, payload) {
 		  var query = query || "";
-		  var payload  = payload || {"query":{"qtext": query}};	
+	//	  var payload  = payload || {"query":{"qtext": query}};	
 		sharedService.prepForBroadcast(query);
-		dataService.postData(payload).then(function (dataResponse) {
+		dataService.postData($scope.payload).then(function (dataResponse) {
 		console.log(dataResponse);
   		$scope.data = dataResponse.data.results;
 		$scope.loading = false;
@@ -30,15 +32,16 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
 	  console.log("query = " + query);
 	  
 	  $scope.search = function (query) {
-		  console.log("when clicked search: payload = " + JSON.stringify(payload));
+		  $scope.payload.query.qtext = query;
+		  console.log("when clicked search: payload = " + JSON.stringify($scope.payload));
 	  	$scope.getSearchResult(query);
 		// flash.success = 'Returned ' + $scope.data.length + ' results';
 	  }
 	  
 	  $scope.$on('clickFacet', function (payload) {
 		  console.log('clickFacet triggered');
-		  payload = facetSearch.payload;
- 		dataService.postData(payload).then(function (dataResponse) {
+		$scope.payload = facetSearch.payload;
+ 		dataService.postData($scope.payload).then(function (dataResponse) {
  		console.log(dataResponse);
    		$scope.data = dataResponse.data.results;
  		$scope.loading = false;
@@ -53,22 +56,23 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
   app.controller('sidebarCtrl', ['$scope', 'dataService', 'mySharedService', 'facetSearchService', function ($scope, dataService, sharedService, facetSearch) {
 	  console.log('in sidebarCtrl');
 	  var query = ""
-	  var payload = {"query":{"qtext": query}};	
+	 $scope.payload = {"query":{"qtext": query}};	
 	  
 	  $scope.init = function () {
-	  	  $scope.getFacetResult(payload);
+		  $scope.payload.query.qtext = "";
+		  $scope.getFacetResult();
 	  }
 	 
 	  $scope.$on('clickSearch', function() {
 	      $scope.q = sharedService.message;
 	  	  query = $scope.q;
-	  	  payload = {"query":{"qtext": query}};	
-		  $scope.getFacetResult(payload);
+	  	   $scope.payload.query.qtext = query;
+		  $scope.getFacetResult($scope.payload);
 	    });  
 	
-		$scope.getFacetResult = function (payload) {
+		$scope.getFacetResult = function () {
 		//	console.log("--------getFacetResult payload---------" + JSON.stringify(payload));
-	    	  dataService.postData(payload).then(function (dataResponse) {
+	    	  dataService.postData($scope.payload).then(function (dataResponse) {
 	    	//	 console.log('response = '+dataResponse);
 	    		 $scope.facets = dataResponse.data.facets;
 	  			 delete $scope.facets['centroid']; // delete centroid from facets props 
@@ -81,12 +85,12 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
 	$scope.$watch('q', function () {
 		console.log("q changed");
 //		console.log("payload ======== " + JSON.stringify(payload));	
-		$scope.getFacetResult(payload);
+		$scope.getFacetResult();
 	}, true);	 
 		 	  
 	  $scope.facetSearch = function () {
 		  console.log('in facetSearch()');
-		  console.log('BEFORE CLICK: payload = ' + JSON.stringify(payload));
+		  console.log('BEFORE CLICK: payload = ' + JSON.stringify($scope.payload));
 			var	andQuery = {
 		  	"range-constraint-query": {
 		  		"constraint-name": this.constraintName,
@@ -94,20 +98,20 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
 		  	}
 		  };
 		  
-		  if (!payload["query"].hasOwnProperty("and-query")) {		
-			  payload["query"]["and-query"] = {};
-			  payload["query"]["and-query"] = {"queries": []};
-			  payload["query"]["and-query"]["queries"].push(andQuery);
+		  if (!$scope.payload["query"].hasOwnProperty("and-query")) {		
+			  $scope.payload["query"]["and-query"] = {};
+			  $scope.payload["query"]["and-query"] = {"queries": []};
+			  $scope.payload["query"]["and-query"]["queries"].push(andQuery);
 		  } else {
-		  	  payload["query"]["and-query"]["queries"].push(andQuery);
+		  	  $scope.payload["query"]["and-query"]["queries"].push(andQuery);
 		  }
 		  
-		    console.log('AFTER CLICK: payload = ' + JSON.stringify(payload)); 
-		  facetSearch.sendPayload(payload);
+		    console.log('AFTER CLICK: payload = ' + JSON.stringify($scope.payload)); 
+		  facetSearch.sendPayload($scope.payload);
 	   	 
-		  $scope.getFacetResult(payload);
+		  $scope.getFacetResult();
 		  
-		  console.log("payload when clicked= " + JSON.stringify(payload));
+		  console.log("payload when clicked= " + JSON.stringify($scope.payload));
 		  
 	  }
 	  

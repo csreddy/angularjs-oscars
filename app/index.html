@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="utf-8">
+  <title>AngularJS Oscars</title>
+  <link rel="stylesheet" href="css/app.css"/>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+  <script src="../node_modules/requirejs/require.js"></script>
+  <script data-main="js/app.js" src="../node_modules/requirejs/require.js"></script>
+</head>
+<body>
+	<header class="navbar navbar-default navbar-static-top" role="banner">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a href="/" class="navbar-brand">Oscars</a>
+	    </div>
+	    <nav class="collapse navbar-collapse" role="navigation">
+	      <ul class="nav navbar-nav">
+	        <li>
+	          <a href="#/view1">View1</a>
+	        </li>
+	        <li>
+	          <a href="#/view2">View2</a>
+	        </li>
+	        <li>
+	          <a href="#">Visualize</a>
+	        </li>
+	        <li>
+	          <a href="#">Prototype</a>
+	        </li>
+	      </ul>
+	    </nav>
+	  </div>
+	</header>
+	<!-- Begin Body -->
+	<div class="container">
+		<div class="row">
+	  			<div ng-controller="sidebarCtrl" class="col-md-4" id="leftCol">
+					<div class="well"> 
+						<input  type="hidden" ng-model="q"> 
+					    <div ng-repeat="(constraintName, facet) in facets" class="panel panel-primary">
+					        <div class="panel-heading clickable">
+					       		<h3 class="panel-title">
+					                  	{{constraintName |  uppercase}} 
+									</h3>
+					 			   		<span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
+					                   </div>
+					                   <div class="panel-body">
+					  						<li ng-click="facetSearch()" ng-repeat="facetValue in facet.facetValues">
+					  						<a>{{facetValue.name}} <span class="badge pull-right">{{facetValue.count}}</span></a>
+					  					</li>
+									   </div>
+					               </div>
+					    
+	  				</div>
+	      		</div>  
+	      		<div class="col-md-8">
+					  <div ng-view></div>	                       
+	  			</div>
+	</div>
+</div>	
+
+
+
+  <div>Angular seed app: v<span app-version></span></div>
+
+  <!-- In production use:
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+  -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-route/angular-route.js"></script>
+   <script src="bower_components/angular-flash/src/services/flash-service.js"></script>
+   <script src="bower_components/angular-flash/src/directives/flash-alert-directive.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/services.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/directives.js"></script>
+  <script src="js/custom/custom.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+		<p>
+			This is the partial for view 1.
+		</p>
+		
+		<div flash-alert active-class="in alert" class="fade">
+		    <span class="alert-message">{{flash.message}}</span>
+		</div>
+		
+		<div>
+			<form class="form-inline" role="form">
+				<div class="form-group">
+					<input type="text" ng-model="q" ng-init="q='bob'" style="width: 520px;" class="form-control" placeholder="Search"> 
+					<button type="submit" ng-click="search(q)" class="btn btn-success"> Search</button>
+				</div>
+			</form><br>
+			<div style="width: 80%;" class="panel panel-default">
+				<div class="panel-heading">
+					<h3>
+						Results
+					</h3>
+				</div>
+				<div class="panel-body">
+					<div id="resultContainer" ng-init="init()">
+						<div class="spinner" ng-show="loading">
+							<div class="progress progress-striped active">
+							  <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+							  loading...
+							  </div>
+							</div>
+						</div>
+						<ul>
+							<li ng-repeat="result in data">
+								<a ng-href="http://localhost:8003{{result.href}}">{{result.uri}}</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>

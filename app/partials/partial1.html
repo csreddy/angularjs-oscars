@@ -1,15 +1,11 @@
-		<p>
-			This is the partial for view 1.
-		</p>
-		
-		<div flash-alert active-class="in alert" class="fade">
+		<div flash-alert active-class="in alert" class="fade" style="width: 600px;">
 		    <span class="alert-message">{{flash.message}}</span>
 		</div>
 		
 		<div>
 			<form class="form-inline" role="form">
 				<div class="form-group">
-					<input type="text" ng-model="q" ng-init="q='bob'" style="width: 520px;" class="form-control" placeholder="Search"> 
+					<input type="text" ng-model="q" style="width: 520px;" class="form-control" placeholder="Search"> 
 					<button type="submit" ng-click="search(q)" class="btn btn-success"> Search</button>
 				</div>
 			</form><br>

@@ -26,3 +26,7 @@ $(document).ready(function () {
     $('.panel-heading span.clickable').click();
     $('.panel div.clickable').click();
 });
+
+$('a[href="#"]').click(function(e) {
+   e.preventDefault();
+});

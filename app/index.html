@@ -43,25 +43,7 @@
 	<!-- Begin Body -->
 	<div class="container">
 		<div class="row">
-	  			<div ng-controller="sidebarCtrl"  class="col-md-4" id="leftCol">
-					<div class="well"> 
-						<input  type="hidden" ng-model="q"> 
-					    <div ng-repeat="(constraintName, facet) in facets" class="panel panel-primary">
-					        <div class="panel-heading clickable">
-					       		<h3 class="panel-title">
-					                  	{{constraintName |  uppercase}} 
-									</h3>
-					 			   		<span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
-					                   </div>
-					                   <div class="panel-body">
-					  						<li ng-click="facetSearch()" ng-repeat="facetValue in facet.facetValues">
-					  						<a>{{facetValue.name}} <span class="badge pull-right">{{facetValue.count}}</span></a>
-					  					</li>
-									   </div>
-					               </div>
-					    
-	  				</div>
-	      		</div>  
+	  				<div ng-include src="'partials/sidebar.html'"></div>
 	      		<div class="col-md-8">
 					  <div ng-view></div>	                       
 	  			</div>

@@ -1,42 +1,10 @@
-	<header class="navbar navbar-default navbar-static-top" role="banner">
-	  <div class="container">
-	    <div class="navbar-header">
-	      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-	        <span class="sr-only">Toggle navigation</span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	      <a href="/" class="navbar-brand">Oscars</a>
-	    </div>
-	    <nav class="collapse navbar-collapse" role="navigation">
-	      <ul class="nav navbar-nav">
-	        <li>
-	          <a href="#/view1">View1</a>
-	        </li>
-	        <li>
-	          <a href="#/view2">View2</a>
-	        </li>
-	        <li>
-	          <a href="#">Visualize</a>
-	        </li>
-	        <li>
-	          <a href="#">Prototype</a>
-	        </li>
-	      </ul>
-	    </nav>
-	  </div>
-	</header>
-	<!-- Begin Body -->
-	<div class="container">
-		<div class="row">
-	  			<div ng-controller="sidebarCtrl" class="col-md-4" id="leftCol">
+	  			<div ng-controller="sidebarCtrl"  class="col-md-4" id="leftCol">
 					<div class="well"> 
-						
-					    <div ng-repeat="facet in facets" class="panel panel-primary">
+						<input  type="hidden" ng-model="q"> 
+					    <div ng-repeat="(constraintName, facet) in facets" class="panel panel-primary">
 					        <div class="panel-heading clickable">
 					       		<h3 class="panel-title">
-					                  	{{facetNames[$index] |  uppercase}}
+					                  	{{constraintName |  uppercase}} 
 									</h3>
 					 			   		<span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
 					                   </div>
@@ -48,4 +16,4 @@
 					               </div>
 					    
 	  				</div>
-	      		</div> 
+	      		</div>  

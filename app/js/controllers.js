@@ -9,45 +9,40 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
 	  console.log("from MyCtrl1");
 	  $scope.loading = true;
 	  $scope.data = null;
-	//  $scope.q = "bob";
+	  $scope.resultCount = 0;
 	  var query = $scope.q || "";
 	//   var payload = payload || {"query":{"qtext": query}};	
 	   
 	   $scope.payload = {"query":{"qtext": query}};	
 	   
 	  $scope.getSearchResult = function (query, payload) {
-		  var query = query || "";
-	//	  var payload  = payload || {"query":{"qtext": query}};	
-		sharedService.prepForBroadcast(query);
+		var query = query || "";
 		dataService.postData($scope.payload).then(function (dataResponse) {
 		console.log(dataResponse);
   		$scope.data = dataResponse.data.results;
 		$scope.loading = false;
-		 flash.success = 'Returned ' + $scope.data.length + ' results';
+		$scope.resultCount = $scope.data.length;
+		 flash.success = 'Returned ' + $scope.resultCount  + ' results';
   		});	
 	  }
 	    
 	  $scope.init =  $scope.getSearchResult();
 	  
-	  console.log("query = " + query);
+//	  console.log("query = " + query);
 	  
 	  $scope.search = function (query) {
+		  sharedService.prepForBroadcast(query);
 		  $scope.payload.query.qtext = query;
-		  console.log("when clicked search: payload = " + JSON.stringify($scope.payload));
-	  	$scope.getSearchResult(query);
-		// flash.success = 'Returned ' + $scope.data.length + ' results';
+	//	  console.log("when clicked search: payload = " + JSON.stringify($scope.payload));
+	  	 $scope.getSearchResult(query);
+	//	 flash.success = 'Returned ' + $scope.resultCount  + ' results';
 	  }
 	  
 	  $scope.$on('clickFacet', function (payload) {
 		  console.log('clickFacet triggered');
 		$scope.payload = facetSearch.payload;
- 		dataService.postData($scope.payload).then(function (dataResponse) {
- 		console.log(dataResponse);
-   		$scope.data = dataResponse.data.results;
- 		$scope.loading = false;
- 		 flash.success = 'Returned ' + $scope.data.length + ' results';
-   		});	
-		 
+		$scope.getSearchResult($scope.q, $scope.payload);
+	//	flash.success = 'Returned ' + $scope.resultCount  + ' results';
 	  });
 	
 
@@ -90,7 +85,7 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
 		 	  
 	  $scope.facetSearch = function () {
 		  console.log('in facetSearch()');
-		  console.log('BEFORE CLICK: payload = ' + JSON.stringify($scope.payload));
+	//	  console.log('BEFORE CLICK: payload = ' + JSON.stringify($scope.payload));
 			var	andQuery = {
 		  	"range-constraint-query": {
 		  		"constraint-name": this.constraintName,
@@ -106,12 +101,12 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
 		  	  $scope.payload["query"]["and-query"]["queries"].push(andQuery);
 		  }
 		  
-		    console.log('AFTER CLICK: payload = ' + JSON.stringify($scope.payload)); 
+	//	    console.log('AFTER CLICK: payload = ' + JSON.stringify($scope.payload)); 
 		  facetSearch.sendPayload($scope.payload);
 	   	 
 		  $scope.getFacetResult();
 		  
-		  console.log("payload when clicked= " + JSON.stringify($scope.payload));
+//		  console.log("payload when clicked= " + JSON.stringify($scope.payload));
 		  
 	  }
 	  
@@ -128,7 +123,6 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
   app.controller('MyCtrl2', ['$scope', function($scope) {
 	  console.log("from MyCtrl2");
     var query = $scope.q ;//|| "tim";
-	console.log('************ q = ' + query);
   }]);
   
   app.controller('flashCtrl', ['flash',  function (flash) {

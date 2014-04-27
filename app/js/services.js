@@ -50,7 +50,7 @@ app.factory('mySharedService', function($rootScope) {
     };
 
     sharedService.broadcastItem = function() {
-        $rootScope.$broadcast('handleBroadcast');
+        $rootScope.$broadcast('clickSearch');
     };
 
     return sharedService;
@@ -60,9 +60,10 @@ app.factory('facetSearchService', function ($rootScope) {
 	var facetSearch = {};
 	facetSearch.payload = {};
 	
-	facetSearch.sendResults = function (payload) {
+	facetSearch.sendPayload = function (payload) {
+		console.log("from facetSearchService: payload = " + JSON.stringify(payload));
 		 this.payload = payload;
-		 $rootScope.$broadcast('facetClick');
+		 $rootScope.$broadcast('clickFacet');
 	}
 	return facetSearch;
 	

@@ -8,9 +8,9 @@
 var app = angular.module('myApp.services', []);
 
 app.value('version', '0.1');
+app.value('baseurl', 'http://localhost:8003');
 
-
-app.service('dataService', function($http) {
+app.service('dataService', function($http, baseurl) {
 
 //	 $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 this.getData = function(q) {
@@ -22,7 +22,7 @@ this.getData = function(q) {
 	console.log("q = " + q);
 	return $http({
         method: 'GET',
-        url: 'http://localhost:8003/v1/search?format=json&options=all&q='+q
+        url: baseurl + '/v1/search?format=json&options=all&pageLength=10&q='+q
      });
  }
  
@@ -31,7 +31,7 @@ this.getData = function(q) {
 	 console.log('payload = ' +  JSON.stringify(jsonPayload));
 	return $http({
          method: 'POST',
-         url: 'http://localhost:8003/v1/search?format=json&options=all',
+         url: baseurl + '/v1/search?format=json&options=all&pageLength=200',
 		 data: jsonPayload
       });
  }

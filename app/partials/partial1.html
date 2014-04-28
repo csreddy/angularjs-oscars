@@ -1,26 +1,28 @@
-		<div flash-alert active-class="in alert" class="fade" style="width: 600px;">
+		<div flash-alert active-class="in alert" class="fade" style="width: 50%;">
 		    <span class="alert-message">{{flash.message}}</span>
 		</div>
 		
 		<div name="selectedFacets">		
 			<a name="facet" ng-repeat="facet in selectedFacets">
-				<span class="label label-primary">{{facet}}    | <span ng-click="unselectFacet($index)" class="glyphicon glyphicon-remove"></span></span>
+				<span class="label label-warning">{{facet}}    | 
+				 <span ng-click="unselectFacet($index)" class="glyphicon glyphicon-remove"></span> 
+				</span>
+				 &nbsp&nbsp
 			</a>
-		</div><br/>
-		
-<div>		
-				
+</div>		<br/><br/>
+						
 			<div class="panel panel-default" style="width: 100%;">		
 			  <div class="panel-heading">	  
 	  			<form class="form-inline" role="form">
-	  				<div class="form-group" style="width: 80%">
+	  				<div class="form-group" style="width: 70%">
 	  					<input type="text" ng-model="q"  style="width: 100%" class="form-control" placeholder="Search"> 
 					</div>
 					<div class="form-group">
-	  					<button type="submit" ng-click="search(q)" class="btn btn-success"> Search</button>
+	  					<button type="submit" ng-click="search(q)" class="btn btn-success btn-sm"> 
+							<span class="glyphicon glyphicon-search"></span> &nbsp&nbsp Search</button>
 					</div>
 	  			</form><br>
-				<h3 class="panel-title">Results</h3>
+				<h3 class="panel-title">Results: {{resultCount}}  documents</h3>
 				 </div> 
 			    
 		<!-- Results -->	  
@@ -34,12 +36,24 @@
 						</div>
 					</div>
 					<ul>
-						<li style="list-style: none;" ng-repeat="result in data">
+						<li style="list-style: none;" ng-repeat="result in data | startFrom:currentPage*pageSize | limitTo:pageSize">
 							<a ng-href="http://localhost:8003{{result.href}}">{{result.metadata[1]['{http://marklogic.com/wikipedia}film-title']}} ({{result.metadata[3]['{http://marklogic.com/wikipedia}nominee_year']}})</a>
 						<p><small><blockquote>{{result.matches[0]['match-text'][0]}}</blockquote></small></p>				
 						</li>
 					</ul>
+					<hr>
+				<div align="center" name="pagination" ng-hide="resultCount == 0">
+				<button type="button" style="width: 100px" class="btn btn-warning btn-sm" ng-disabled="currentPage == 0" ng-click="currentPage=currentPage-1">
+				        Previous
+				    </button>
+				    {{currentPage+1}}/{{numOfPages()}}
+				    <button type="button" style="width: 100px" class="btn btn-warning btn-sm" ng-disabled="currentPage >= resultCount/pageSize - 1" ng-click="currentPage=currentPage+1">
+				        Next  
+				    </button>
 				</div>
+				
+				</div>
+			
+				
 			  </div>
 			</div>
-</div>

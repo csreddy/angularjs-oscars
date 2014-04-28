@@ -10,6 +10,11 @@ app.controller('MainCtrl', ['$scope', 'dataService', 'flash', 'mySharedService',
 	  $scope.loading = true;
 	  $scope.data = null;
 	  $scope.resultCount = 0;
+	  $scope.currentPage = 0;
+	  $scope.pageSize = 10;
+	  $scope.numOfPages = function () {
+		  return Math.ceil($scope.resultCount / $scope.pageSize )
+	  }
 	  $scope.selectedFacets = []
 	  $scope.matchText = {};
 	  var query = $scope.q || "";

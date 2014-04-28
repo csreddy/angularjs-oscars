@@ -1,19 +1,20 @@
-	  			<div ng-controller="SidebarCtrl"  class="col-md-4" id="leftCol">
-					<div class="well"> 
-						<input  type="hidden" ng-model="q"> 
-					    <div ng-repeat="(constraintName, facet) in facets" class="panel panel-primary">
-					        <div class="panel-heading clickable">
-					       		<h3 class="panel-title">
-					                  	{{constraintName |  uppercase}} 
-									</h3>
-					 			   		<span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
-					                   </div>
-					                   <div class="panel-body">
-					  						<li ng-repeat="facetValue in facet.facetValues">
-					  						<a name="facetValue" ng-click="facetSearch()" >{{facetValue.name}} <span class="badge pull-right">{{facetValue.count}}</span></a>
-					  					</li>
-									   </div>
-					               </div>
-					    
-	  				</div>
-	      		</div>  
+<div ng-controller="SidebarCtrl" class="col-md-4" id="leftCol">
+			<div class="well">
+				<input type="hidden" ng-model="q">
+				<div ng-repeat="(constraintName, facet) in facets" class="panel panel-primary">
+					<div class="panel-heading clickable">
+						<h3 class="panel-title">
+							{{constraintName}}
+						</h3>
+						<span class="pull-right clickable"><i class="glyphicon glyphicon-minus"></i></span>
+					</div>
+					<div class="panel-body">
+						<ul>
+							<li style="list-style: none;" ng-repeat="facetValue in facet.facetValues">
+								<a name="facetValue" ng-click="facetSearch()" id="facetValue">{{facetValue.name}} <span class="badge pull-right">{{facetValue.count}}</span></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+</div>

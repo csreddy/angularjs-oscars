@@ -18,6 +18,11 @@ $(document).ready(function () {
     $('.panel div.clickable').click();
 });
 
+
+
+
+
+
 /*
 $(document).on('click', "a[name='facetValue']", function (e) {
 	var $this = $(this);

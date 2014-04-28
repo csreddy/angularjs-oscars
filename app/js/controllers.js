@@ -136,24 +136,12 @@ app.controller('MainCtrl', ['$scope', 'dataService', 'flash', 'mySharedService',
 	  }
 	  
   }]);
-  
-  app.controller('facetSearchCtrl', ['$scope', 'dataService', function ($scope, dataService) {
-	  console.log('in facetSearchCtrl');
-	  var qtext = $scope.q || "";
-	  var constraintName = $scope.constraintName;
-	
-  }]);
-  
+
   
   app.controller('MyCtrl2', ['$scope', function($scope) {
 	  console.log("from MyCtrl2");
     var query = $scope.q ;//|| "tim";
   }]);
   
-  app.controller('flashCtrl', ['flash',  function (flash) {
-	  console.log("inside flashCtrl");	  
-	  	 flash.success = "Do it live";
-	  	 flash.error = 'Fail!';
-  }]);
-  
+
 

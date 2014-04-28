@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <title>AngularJS Oscars</title>
+  	  <link href='img/oscar.png' type='image/x-icon'rel='shortcut icon'/>
 	  <link rel="stylesheet" href="css/bootstrap.css"/>
 	  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
 	  <link rel="stylesheet" href="css/app.css"/> 
 </head>
 <body>
-	<header class="navbar navbar-default navbar-fixed-top" role="banner">
-		
+	<header class="navbar navbar-default navbar-fixed-top" role="banner">		
 	  	<!--  Ribbon -->
 	<!--  	<div class="ribbon-wrapper-blue">
 	  	    <div class="ribbon-blue">AngularJS</div>
@@ -24,14 +24,13 @@
 	        <span class="icon-bar"></span>
 	        <span class="icon-bar"></span>
 	      </button>
-	      <a href="/app/#/view1" class="navbar-brand">Oscars</a>
+	      <a href="/app/#/view1" class="navbar-brand">
+			 <!-- <img src="img/oscar-icon.png" height=120%> --> 
+			  Oscars</a>
 	    </div>
 	    <nav class="collapse navbar-collapse" role="navigation">
 			<p class="navbar-text pull-right">Built with AngularJS on top of MarkLogic</p>
 	      <ul class="nav navbar-nav">
-	
-	   
-	   	
 	    <!-- 
 			<li>
 	          <a href="#/view1">View1</a>
@@ -44,9 +43,6 @@
 	    </nav>
 	  </div>
 	</header>
-
-	
-	
 	<!-- Begin Body -->
 	<div class="container" role="main">
 		<div class="row">
@@ -55,10 +51,9 @@
 					  <div ng-view></div>	                       
 	  			</div>
 	</div>
-	<nav class="navbar navbar-default" role="navigation">
+	<nav class="navbar navbar-default" role="footer">
 	    <!-- Your Footer Content -->
-		 <div align="center"><h5 style="color: white"><small>Built by </small><br/>Sudhakar Reddy  <br/> <small>MarkLogic Corp </small></h5></div>
-	 
+		 <div class="footertext" align="center"><h5><small>Built by </small><br/>Sudhakar Reddy  <br/> <small>MarkLogic Corp </small></h5></div>	 
 	</nav>
 </div>	
 

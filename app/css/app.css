@@ -75,9 +75,17 @@ body { padding-top: 60px; }
 a.clickable { color: inherit; }
 a.clickable:hover { text-decoration:none; }
 
+.footertext {
+	color: white;
+}
 
+li.result {
+	list-style: none;
+}
 
-
+button.btn .btn-warning .btn-sm .pagintation {
+	width: 100px;
+}
 
 
 /* css for corner ribbon

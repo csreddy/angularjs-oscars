@@ -72,6 +72,11 @@ body { padding-top: 60px; }
 	text-transform:capitalize;
 }
 
+.facet-value {
+	text-transform:capitalize;
+}
+
+
 a.clickable { color: inherit; }
 a.clickable:hover { text-decoration:none; }
 

@@ -11,7 +11,7 @@
 					<div class="panel-body">
 						<ul>
 							<li style="list-style: none;cursor:pointer;" ng-repeat="facetValue in facet.facetValues" >
-								<a name="facetValue" ng-click="facetSearch()" id="facetValue">{{facetValue.name}} <span class="badge pull-right">{{facetValue.count}}</span></a>
+								<a name="facetValue" ng-click="facetSearch()" id="facetValue" class="facet-value">{{facetValue.name | transformText}} <span class="badge pull-right">{{facetValue.count}}</span></a>
 							</li>
 						</ul>
 					</div>

@@ -20,3 +20,11 @@ app.filter('startFrom', function () {
   	  	
 	}
   });
+
+
+  app.filter('transformText', function () {
+	  return function (input) {
+		  return input.replace('-', ' ');
+	  }
+  	
+  });

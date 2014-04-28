@@ -13,7 +13,7 @@ app.controller('MainCtrl', ['$scope', 'dataService', 'flash', 'mySharedService',
 	  $scope.currentPage = 0;
 	  $scope.pageSize = 10;
 	  $scope.numOfPages = function () {
-		  return Math.ceil($scope.resultCount / $scope.pageSize )
+		  return Math.ceil($scope.resultCount / $scope.pageSize);
 	  }
 	  $scope.selectedFacets = []
 	  $scope.matchText = {};
@@ -30,6 +30,7 @@ app.controller('MainCtrl', ['$scope', 'dataService', 'flash', 'mySharedService',
 		$scope.resultCount = $scope.data.length;
 		 flash.success = 'Returned ' + $scope.resultCount  + ' results';
   		});	
+		$scope.currentPage = 0;
 	  }
 	    
 	  $scope.init =  $scope.getSearchResult();

@@ -5,13 +5,14 @@
 var app = angular.module('myApp.controllers', []);
 
 
-app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','facetSearchService',  function($scope, dataService, flash, sharedService, facetSearch) {
+app.controller('MainCtrl', ['$scope', 'dataService', 'flash', 'mySharedService','facetSearchService', 'facetSelectionService',  function($scope, dataService, flash, sharedService, facetSearch, facet) {
 	  console.log("from MyCtrl1");
 	  $scope.loading = true;
 	  $scope.data = null;
 	  $scope.resultCount = 0;
+	  $scope.selectedFacets = []
+	  $scope.matchText = {};
 	  var query = $scope.q || "";
-	//   var payload = payload || {"query":{"qtext": query}};	
 	   
 	   $scope.payload = {"query":{"qtext": query}};	
 	   
@@ -28,7 +29,6 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
 	    
 	  $scope.init =  $scope.getSearchResult();
 	  
-//	  console.log("query = " + query);
 	  
 	  $scope.search = function (query) {
 		  sharedService.prepForBroadcast(query);
@@ -43,16 +43,30 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
 		$scope.payload = facetSearch.payload;
 		$scope.getSearchResult($scope.q, $scope.payload);
 	//	flash.success = 'Returned ' + $scope.resultCount  + ' results';
-	  });
 	
+		$scope.selectedFacets.push(facetSearch.facetName);
+		console.log('clicked facet = ' + $scope.selectedFacets);
+	  });
+		
+	  $scope.unselectFacet = function (index) {
+		  var andQueryArray = $scope.payload["query"]["and-query"]["queries"];
+		 andQueryArray.splice(index, 1);
+		$scope.payload["query"]["and-query"]["queries"] = andQueryArray;
+		 $scope.getSearchResult($scope.q, $scope.payload);
+		 
+		 facet.sendPayload($scope.payload);
+		 
+		  $scope.selectedFacets.splice(index, 1);
+	  }
+
 
   }]);
   
-  app.controller('sidebarCtrl', ['$scope', 'dataService', 'mySharedService', 'facetSearchService', function ($scope, dataService, sharedService, facetSearch) {
-	  console.log('in sidebarCtrl');
+  app.controller('SidebarCtrl', ['$scope', 'dataService', 'mySharedService', 'facetSearchService', 'facetSelectionService', function ($scope, dataService, sharedService, facetSearch, facet) {
+	  console.log('in SidebarCtrl');
 	  var query = ""
 	 $scope.payload = {"query":{"qtext": query}};	
-	  
+	  $scope.facets = {};
 	  $scope.init = function () {
 		  $scope.payload.query.qtext = "";
 		  $scope.getFacetResult();
@@ -64,6 +78,12 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
 	  	   $scope.payload.query.qtext = query;
 		  $scope.getFacetResult($scope.payload);
 	    });  
+		
+		
+		$scope.$on('unselectFacet', function () {
+			$scope.payload = facet.payload;
+			 $scope.getFacetResult($scope.payload);
+		});
 	
 		$scope.getFacetResult = function () {
 		//	console.log("--------getFacetResult payload---------" + JSON.stringify(payload));
@@ -85,7 +105,7 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
 		 	  
 	  $scope.facetSearch = function () {
 		  console.log('in facetSearch()');
-	//	  console.log('BEFORE CLICK: payload = ' + JSON.stringify($scope.payload));
+
 			var	andQuery = {
 		  	"range-constraint-query": {
 		  		"constraint-name": this.constraintName,
@@ -100,13 +120,12 @@ app.controller('MyCtrl1', ['$scope', 'dataService', 'flash', 'mySharedService','
 		  } else {
 		  	  $scope.payload["query"]["and-query"]["queries"].push(andQuery);
 		  }
-		  
-	//	    console.log('AFTER CLICK: payload = ' + JSON.stringify($scope.payload)); 
-		  facetSearch.sendPayload($scope.payload);
-	   	 
+	  
+
+		  facetSearch.sendPayload($scope.payload, this.constraintName, this.facetValue.name );
+		 
 		  $scope.getFacetResult();
-		  
-//		  console.log("payload when clicked= " + JSON.stringify($scope.payload));
+
 		  
 	  }
 	  

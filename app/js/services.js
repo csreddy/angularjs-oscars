@@ -59,15 +59,32 @@ app.factory('mySharedService', function($rootScope) {
 app.factory('facetSearchService', function ($rootScope) {
 	var facetSearch = {};
 	facetSearch.payload = {};
+	facetSearch.constraintName = "";
+	facetSearch.facetName = "";
 	
-	facetSearch.sendPayload = function (payload) {
+	facetSearch.sendPayload = function (payload, constraintName, facetName) {
 		console.log("from facetSearchService: payload = " + JSON.stringify(payload));
 		 this.payload = payload;
+		 this.constraintName = constraintName;
+		 this.facetName = facetName;
 		 $rootScope.$broadcast('clickFacet');
 	}
 	return facetSearch;
 	
 });
+
+
+app.factory('facetSelectionService', function ($rootScope) {
+	var facet = {};
+	facet.payload = {};
+	
+	facet.sendPayload = function (payload) {
+		this.payload = payload;
+		$rootScope.$broadcast('unselectFacet');
+	}
+	return facet;
+	
+})
 
 
 

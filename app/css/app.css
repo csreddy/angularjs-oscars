@@ -40,6 +40,11 @@
     width: 10%;
 }
 
+.footernote {
+	margin-left:auto;
+	margin-right:auto;
+	width:70%;
+}
 
 
 .clickable
@@ -63,3 +68,4 @@
 }
 a.clickable { color: inherit; }
 a.clickable:hover { text-decoration:none; }
+

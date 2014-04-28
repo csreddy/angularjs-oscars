@@ -8,7 +8,7 @@
 var app = angular.module('myApp.services', []);
 
 app.value('version', '0.1');
-app.value('baseurl', 'http://localhost:8003');
+app.value('baseurl', 'http://'+ location.hostname + ':8003');
 
 app.service('dataService', function($http, baseurl) {
 

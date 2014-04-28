@@ -10,7 +10,7 @@
 					</div>
 					<div class="panel-body">
 						<ul>
-							<li style="list-style: none;" ng-repeat="facetValue in facet.facetValues">
+							<li style="list-style: none;cursor:pointer;" ng-repeat="facetValue in facet.facetValues" >
 								<a name="facetValue" ng-click="facetSearch()" id="facetValue">{{facetValue.name}} <span class="badge pull-right">{{facetValue.count}}</span></a>
 							</li>
 						</ul>

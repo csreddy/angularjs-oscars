@@ -31,7 +31,7 @@ this.getData = function(q) {
 	 console.log('payload = ' +  JSON.stringify(jsonPayload));
 	return $http({
          method: 'POST',
-         url: baseurl + '/v1/search?format=json&options=all&pageLength=200',
+         url: baseurl + '/v1/search?format=json&options=all&start=1&pageLength=160',
 		 data: jsonPayload
       });
  }

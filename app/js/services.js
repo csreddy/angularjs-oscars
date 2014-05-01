@@ -2,15 +2,12 @@
 
 /* Services */
 
-
-// Demonstrate how to register services
-// In this case it is a simple value service.
 var app = angular.module('myApp.services', []);
 
 app.value('version', '0.1');
-app.value('baseurl', 'http://'+ location.hostname + ':8003');
+app.constant('RESTURL', 'http://'+ location.hostname + ':8003');
 
-app.service('dataService', function($http, baseurl) {
+app.service('dataService', function($http, RESTURL) {
 
 //	 $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 this.getData = function(q) {
@@ -22,16 +19,16 @@ this.getData = function(q) {
 	console.log("q = " + q);
 	return $http({
         method: 'GET',
-        url: baseurl + '/v1/search?format=json&options=all&pageLength=10&q='+q
+        url: RESTURL + '/v1/search?format=json&options=all&pageLength=10&q='+q
      });
  }
  
  this.postData = function (jsonPayload) {
 	// console.log('postData() q = ' + q);
-	 console.log('payload = ' +  JSON.stringify(jsonPayload));
+//	 console.log('payload = ' +  JSON.stringify(jsonPayload));
 	return $http({
          method: 'POST',
-         url: baseurl + '/v1/search?format=json&options=all&start=1&pageLength=160',
+         url: RESTURL + '/v1/search?format=json&options=all&start=1&pageLength=160',
 		 data: jsonPayload
       });
  }
@@ -44,7 +41,7 @@ app.factory('mySharedService', function($rootScope) {
     sharedService.message = '';
 
     sharedService.prepForBroadcast = function(msg) {
-		console.log('from sharedService:  msg =  ' + msg);
+	//	console.log('from sharedService:  msg =  ' + msg);
         this.message = msg;
         this.broadcastItem();
     };
@@ -63,7 +60,7 @@ app.factory('facetSearchService', function ($rootScope) {
 	facetSearch.facetName = "";
 	
 	facetSearch.sendPayload = function (payload, constraintName, facetName) {
-		console.log("from facetSearchService: payload = " + JSON.stringify(payload));
+//		console.log("from facetSearchService: payload = " + JSON.stringify(payload));
 		 this.payload = payload;
 		 this.constraintName = constraintName;
 		 this.facetName = facetName;

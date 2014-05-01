@@ -20,8 +20,3 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
 }]);
 
-app.config(function (flashProvider) {
-	  flashProvider.errorClassnames.push('alert-danger');
-});
-
-

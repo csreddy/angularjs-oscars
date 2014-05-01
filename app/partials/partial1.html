@@ -37,8 +37,8 @@
 					</div>
 					<ul>
 						<li class='result' ng-repeat="result in data  |startFrom:currentPage*pageSize | limitTo:pageSize">
-							<a target="_blank"  ng-href="http://localhost:8003{{result.href}}">{{result.metadata[1]['{http://marklogic.com/wikipedia}film-title']}} ({{result.metadata[3]['{http://marklogic.com/wikipedia}nominee_year']}})</a>
-					<!--	 <p><small><blockquote>{{result.matches[0]['match-text'][0]}}</blockquote></small></p> --> 						<p><small><blockquote>{{result.resultContent}}</blockquote></small></p> 
+							<a target="_blank"  ng-href="{{RESTURL+result.href}}">{{result.metadata[1]['{http://marklogic.com/wikipedia}film-title']}} ({{result.metadata[3]['{http://marklogic.com/wikipedia}nominee_year']}})</a>
+ 						<p><small><blockquote>{{result.resultContent}}</blockquote></small></p> 
 						</li>
 					</ul>
 					<hr>

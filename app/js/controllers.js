@@ -2,9 +2,10 @@
 /* Controllers */
 
 var app = angular.module('myApp.controllers', []);
+app.constant('RESTURL', 'http://'+ location.hostname + ':8003');
 
-app.controller('MainCtrl', ['$scope', 'dataService', 'flash', 'mySharedService','facetSearchService', 'facetSelectionService',  function($scope, dataService, flash, sharedService, facetSearch, facet) {
-	  console.log("from MyCtrl1");
+app.controller('MainCtrl', ['$scope', 'dataService', 'flash', 'mySharedService','facetSearchService', 'facetSelectionService', 'RESTURL',  function($scope, dataService, flash, sharedService, facetSearch, facet, RESTURL) {
+	  $scope.RESTURL =  RESTURL;
 	  $scope.loading = true;
 	  $scope.data = null;
 	  $scope.resultCount = 0;
@@ -31,7 +32,7 @@ app.controller('MainCtrl', ['$scope', 'dataService', 'flash', 'mySharedService',
 
   		});	
 		$scope.currentPage = 0;
-		console.log($scope.data);
+	//	console.log($scope.data);
 	  }
 	    
 	  $scope.init =  $scope.getSearchResult();
@@ -46,13 +47,13 @@ app.controller('MainCtrl', ['$scope', 'dataService', 'flash', 'mySharedService',
 	  }
 	  
 	  $scope.$on('clickFacet', function (payload) {
-		  console.log('clickFacet triggered');
 		$scope.payload = facetSearch.payload;
 		$scope.getSearchResult($scope.q, $scope.payload);
 	//	flash.success = 'Returned ' + $scope.resultCount  + ' results';
-	
-		$scope.selectedFacets.push(facetSearch.facetName);
-		console.log('clicked facet = ' + $scope.selectedFacets);
+		if ($scope.selectedFacets.indexOf(facetSearch.facetName) === -1) {
+			$scope.selectedFacets.push(facetSearch.facetName);		
+		}
+		console.log('selected facet = ' + $scope.selectedFacets);
 	  });
 		
 	  $scope.unselectFacet = function (index) {
@@ -76,28 +77,22 @@ app.controller('MainCtrl', ['$scope', 'dataService', 'flash', 'mySharedService',
 					  if (matchText["match-text"] instanceof Object) {
 						  angular.forEach(matchText["match-text"], function(highlightText, key){
 							  if (highlightText instanceof Object) {
-								 resultContent += highlightText.highlight;
+								 resultContent = resultContent + " " + highlightText.highlight;
 							  } else{
-								  resultContent += highlightText;
+								  resultContent = resultContent + " " + highlightText;
 							  }
 						  });
 					  }				
 				  } else {
-					   resultContent += matchText[key];
+					   resultContent = resultContent + " " + matchText[key];
 				  }
 			  });
 			    results[parentKey].resultContent =  resultContent;
 		  });
 	  }
-	  
-	 
-
-
-	  //-----------------------------
   }]);
   
   app.controller('SidebarCtrl', ['$scope', 'dataService', 'mySharedService', 'facetSearchService', 'facetSelectionService', function ($scope, dataService, sharedService, facetSearch, facet) {
-	  console.log('in SidebarCtrl');
 	  var query = ""
 	 $scope.payload = {"query":{"qtext": query}};	
 	  $scope.facets = {};
@@ -120,20 +115,15 @@ app.controller('MainCtrl', ['$scope', 'dataService', 'flash', 'mySharedService',
 		});
 	
 		$scope.getFacetResult = function () {
-		//	console.log("--------getFacetResult payload---------" + JSON.stringify(payload));
 	    	  dataService.postData($scope.payload).then(function (dataResponse) {
-	    	//	 console.log('response = '+dataResponse);
 	    		 $scope.facets = dataResponse.data.facets;
 	  			 delete $scope.facets['centroid']; // delete centroid from facets props 
 	    		 $scope.facetNames = Object.getOwnPropertyNames($scope.facets) || [];
-	    		//  console.log($scope.facetNames);	 
 	    	  });
 		}
 	
 	
 	$scope.$watch('q', function () {
-		console.log("q changed");
-//		console.log("payload ======== " + JSON.stringify(payload));	
 		$scope.getFacetResult();
 	}, true);	 
 		 	  
@@ -146,29 +136,41 @@ app.controller('MainCtrl', ['$scope', 'dataService', 'flash', 'mySharedService',
 				"value": [ this.facetValue.name ]
 		  	}
 		  };
-		  
+		  var f = this.facetValue.name;
 		  if (!$scope.payload["query"].hasOwnProperty("and-query")) {		
 			  $scope.payload["query"]["and-query"] = {};
 			  $scope.payload["query"]["and-query"] = {"queries": []};
 			  $scope.payload["query"]["and-query"]["queries"].push(andQuery);
 		  } else {
-		  	  $scope.payload["query"]["and-query"]["queries"].push(andQuery);
+			  var exitLoop = {};
+			  try {
+				  angular.forEach($scope.payload["query"]["and-query"]["queries"], function(obj, key){
+					  if (obj["range-constraint-query"]["value"][0] !== f) {
+					  	  $scope.payload["query"]["and-query"]["queries"].push(andQuery);
+						  throw exitLoop;
+					  } else {
+						  console.warn("already selected");
+					  }
+				  });
+
+			  } catch (e) {
+			  	if (e !== exitLoop) throw e;
+			  } 			  
 		  }
-	  
+
 
 		  facetSearch.sendPayload($scope.payload, this.constraintName, this.facetValue.name );
 		 
-		  $scope.getFacetResult();
-
-		  
+		  $scope.getFacetResult();	  
 	  }
 	  
   }]);
 
   
+  // for future enhancements
   app.controller('MyCtrl2', ['$scope', function($scope) {
 	  console.log("from MyCtrl2");
-    var query = $scope.q ;//|| "tim";
+    var query = $scope.q ;
   }]);
   
 

@@ -8,10 +8,9 @@ app.value('version', '0.1');
 app.constant('RESTURL', 'http://'+ location.hostname + ':8003');
 
 app.service('dataService', function($http, RESTURL) {
-
-//	 $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+	
+// this method is never used
 this.getData = function(q) {
-    // $http() returns a $promise that we can add handlers with .then()
     if (q === undefined || q === null) {
     	q == "";
     }
@@ -24,8 +23,6 @@ this.getData = function(q) {
  }
  
  this.postData = function (jsonPayload) {
-	// console.log('postData() q = ' + q);
-//	 console.log('payload = ' +  JSON.stringify(jsonPayload));
 	return $http({
          method: 'POST',
          url: RESTURL + '/v1/search?format=json&options=all&start=1&pageLength=160',
@@ -41,7 +38,6 @@ app.factory('mySharedService', function($rootScope) {
     sharedService.message = '';
 
     sharedService.prepForBroadcast = function(msg) {
-	//	console.log('from sharedService:  msg =  ' + msg);
         this.message = msg;
         this.broadcastItem();
     };
@@ -60,7 +56,6 @@ app.factory('facetSearchService', function ($rootScope) {
 	facetSearch.facetName = "";
 	
 	facetSearch.sendPayload = function (payload, constraintName, facetName) {
-//		console.log("from facetSearchService: payload = " + JSON.stringify(payload));
 		 this.payload = payload;
 		 this.constraintName = constraintName;
 		 this.facetName = facetName;

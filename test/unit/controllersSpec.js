@@ -8,7 +8,8 @@ describe('controllers', function(){
 
   it('should ....', inject(function($controller) {
     //spec body
-    var myCtrl1 = $controller('MyCtrl1');
+    var myCtrl1 = $controller('MainCtrl');
+	var data = dataService.getData(q)
     expect(myCtrl1).toBeDefined();
   }));
 

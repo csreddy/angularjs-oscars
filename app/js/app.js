@@ -19,4 +19,3 @@ app.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpPro
 	 $httpProvider.defaults.headers.post = {};
   delete $httpProvider.defaults.headers.common['X-Requested-With'];
 }]);
-
